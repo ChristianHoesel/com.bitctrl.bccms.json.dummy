@@ -1,0 +1,127 @@
+#%RAML 1.0
+title: BitCtrl CMS JSON API
+version: v1
+protocols: [ HTTPS ]
+baseUri: https://bitctrl.com/bccms/api/{version}
+mediaType:  application/json
+
+securedBy: basicAuth
+securitySchemes:
+  basicAuth:
+    description: Each request must contain the headers necessary for
+                 basic authentication
+    type: Basic Authentication
+    describedBy:
+      headers:
+        Authorization:
+          description: Used to send the Base64 encoded "username:password"
+                       credentials
+          type: string
+      responses:
+        401:
+          description: |
+            Unauthorized. Either the provided username and password
+            combination is invalid, or the user is not allowed to access
+            the content provided by the requested URL.
+
+uses:
+  types: types.raml
+
+traits:
+  pageable: !include pageable.raml
+
+
+/playersystems:
+  get:
+    is: [pageable]
+    responses:
+        200:
+          body:
+            type: types.PlayerSystem []
+  /{id}:
+    get:
+     responses:
+        200:
+          body:
+            type: types.PlayerSystem
+
+/playersystemtyps:
+  get:
+    responses:
+      200:
+        body:
+          type: types.PlayerSystemTyp []
+  /{id}:
+    get:
+      responses:
+        200:
+          body:
+            type: types.PlayerSystemTyp
+/computers:
+   get:
+     is: [pageable]
+     responses:
+       200:
+         body:
+           type: types.Computer []
+   /{id}:
+    get:
+      responses:
+        200:
+          body:
+            type: types.Computer
+/servicepoints:
+  get:
+    is: [pageable]
+    responses:
+      200:
+        description: |
+         Get all ServicePoints.
+        body:
+          type: types.ServicePoint []
+  post:
+    body:
+      application/json:
+        type: types.ServicePoint
+    responses:
+        200:
+          description: |
+           The given ServicePoint has been updated.
+          body:
+            type: types.ServicePoint
+        201:
+          description: |
+           A new ServicePoint was created.
+          body:
+            type: types.ServicePoint
+        403:
+          description: |
+           User is not allowed to create ServicePoints
+  /{id}:
+    get:
+      responses:
+        200:
+          body:
+            type: types.ServicePoint
+    delete:
+      description: |
+        Delete resource
+      responses:
+        204:
+          description: |
+            Succesfully deleted resource
+        403:
+          description: |
+            User is not allowed to delete ServicePoints
+  /filter:
+      get:
+        is: [pageable]
+        queryParameters:
+          fromDate:
+             type: datetime
+          toDate:
+            type: datetime
+        responses:
+          200:
+            body:
+              type: types.ServicePoint []

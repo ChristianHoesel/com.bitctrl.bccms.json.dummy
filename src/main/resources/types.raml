@@ -1,0 +1,95 @@
+#%RAML 1.0 Library
+
+
+types:
+  Role:
+    type: object
+    properties:
+     id: number
+     name: string
+     description: string
+  User:
+    type: object
+    properties:
+     id: number
+     country: string
+     company: string
+     firstname: string
+     lastname: string
+     login: string
+     street: string
+     city: string
+     phone: string
+     mobile: string
+     fax: string
+     email: string
+     roles: number[]
+  PlayerSystemTyp:
+    type: object
+    properties:
+      id: number
+      name: string
+  PlayerSystem:
+    type: object
+    properties:
+      id: number
+      owner: string
+      playerstystemGroup: string
+      playersystemType: number
+      manufactor: string
+      name: string
+      description: string
+      enable: boolean
+      bordcomputerid: string
+  Computer:
+    type: object
+    properties:
+      id: number
+      company: string
+      support: User
+      owner: string
+      channel: string
+      playersystem: number
+      typ: string
+      distributiontyp: string
+      playeros: string
+      playertyp: string
+      hostname: string
+      phonenumber: string
+      sim: string
+      logid: string
+      enable: boolean
+      description: string
+      lastvalidupdate: datetime
+      ip: string
+      mac: string
+      iplan: string
+      maclan: string
+      macversion: string
+      maincontrolversion: string
+      sernumber: string
+      operationhours: integer
+      installationpoint: number
+  InstallationPoint:
+    type: object
+    properties:
+      id: number
+      playersystem: number
+      typ: integer
+      name: string
+  ServicePoint:
+    type: object
+    properties:
+       id: number
+       computer: number
+       playersystem: number
+       user: number
+       servicetime: datetime
+       shortdescription:
+         maxLength: 56
+       description:
+         maxLength: 1024
+       externorderno:
+         maxLength: 56
+       assembler:
+         maxLength: 64
